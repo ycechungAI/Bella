@@ -343,8 +343,16 @@ class ChatInterface {
 
     // 格式化消息内容
     formatMessage(content) {
+        // First escape HTML to prevent XSS
+        let safeContent = content
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
         // 简单的文本格式化，支持换行
-        return content
+        return safeContent
             .replace(/\n/g, '<br>')
             .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
             .replace(/\*(.*?)\*/g, '<em>$1</em>');
