@@ -354,8 +354,13 @@ class ChatInterface {
 
     // 格式化消息内容
     formatMessage(content) {
-        // 先进行HTML转义，防止XSS攻击
-        const safeContent = this.escapeHtml(content);
+        // First escape HTML to prevent XSS
+        let safeContent = content
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
 
         // 简单的文本格式化，支持换行
         return safeContent
