@@ -341,6 +341,17 @@ class ChatInterface {
         }, 10);
     }
 
+    // HTML转义
+    escapeHtml(unsafe) {
+        if (!unsafe) return '';
+        return unsafe
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
     // 格式化消息内容
     formatMessage(content) {
         // First escape HTML to prevent XSS
