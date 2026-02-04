@@ -341,10 +341,24 @@ class ChatInterface {
         }, 10);
     }
 
+    // HTML转义
+    escapeHtml(unsafe) {
+        if (!unsafe) return '';
+        return unsafe
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
     // 格式化消息内容
     formatMessage(content) {
+        // 先进行HTML转义，防止XSS攻击
+        const safeContent = this.escapeHtml(content);
+
         // 简单的文本格式化，支持换行
-        return content
+        return safeContent
             .replace(/\n/g, '<br>')
             .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
             .replace(/\*(.*?)\*/g, '<em>$1</em>');
