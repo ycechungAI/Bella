@@ -56,6 +56,29 @@ document.addEventListener('DOMContentLoaded', async function() {
                     chatInterface.addMessage('assistant', '抱歉，我现在有点困惑，请稍后再试...');
                 }
             };
+
+            // [SENTINEL] Secure Configuration Handlers
+            chatInterface.onAPIKeySave = (provider, apiKey) => {
+                // Securely set the API key without logging it
+                if (bellaAI.setAPIKey(provider, apiKey)) {
+                    console.log(`API Key for ${provider} updated securely.`);
+                } else {
+                    console.warn(`Failed to update API Key for ${provider}.`);
+                }
+            };
+
+            chatInterface.onProviderChange = (provider) => {
+                if (bellaAI.switchProvider(provider)) {
+                    console.log(`AI Provider switched to: ${provider}`);
+                } else {
+                    console.warn(`Failed to switch to provider: ${provider}`);
+                }
+            };
+
+            chatInterface.onClearHistory = () => {
+                bellaAI.clearHistory();
+                console.log('Conversation history cleared.');
+            };
         }
         
         micButton.disabled = false;
