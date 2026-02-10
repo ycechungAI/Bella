@@ -110,7 +110,7 @@ class ChatInterface {
                         <option value="glm">智谱AI</option>
                     </select>
                 </div>
-                <div class="bella-setting-group bella-api-key-group" style="display: none;">
+                <div class="bella-setting-group bella-api-key-group">
                     <label>API密钥</label>
                     <input type="password" class="bella-api-key-input" placeholder="请输入API密钥">
                     <button class="bella-api-key-save">保存</button>
@@ -129,6 +129,9 @@ class ChatInterface {
             </div>
         `;
         
+        // Hide API key input by default
+        this.settingsPanel.querySelector('.bella-api-key-group').style.display = 'none';
+
         document.body.appendChild(this.settingsPanel);
     }
 
