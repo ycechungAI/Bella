@@ -1,0 +1,68 @@
+
+> bella@1.0.0 start
+> http-server -p 8081 -c-1 --cors --headers='{"Cross-Origin-Opener-Policy": "same-origin", "Cross-Origin-Embedder-Policy": "require-corp"}'
+
+Starting up http-server, serving ./
+
+http-server version: 14.1.1
+
+http-server settings:
+CORS: true
+Cache: -1 seconds
+Connection Timeout: 120 seconds
+Directory Listings: visible
+AutoIndex: visible
+Serve GZIP Files: false
+Serve Brotli Files: false
+Default File Extension: none
+
+Available on:
+  http://127.0.0.1:8081
+  http://192.168.0.2:8081
+Hit CTRL-C to stop the server
+
+[2026-02-23T01:25:58.826Z]  "GET /" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36"
+(node:3170) [DEP0066] DeprecationWarning: OutgoingMessage.prototype._headers is deprecated
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[2026-02-23T01:25:58.923Z]  "GET /style.css" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36"
+[2026-02-23T01:25:58.927Z]  "GET /chatStyles.css" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36"
+[2026-02-23T01:25:59.003Z]  "GET /Bellaicon/Generated%20image.webp" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36"
+[2026-02-23T01:25:59.208Z]  "GET /%E8%A7%86%E9%A2%91%E8%B5%84%E6%BA%90/3D%20%E5%BB%BA%E6%A8%A1%E5%9B%BE%E7%89%87%E5%88%B6%E4%BD%9C.mp4" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36"
+[2026-02-23T01:25:59.293Z]  "GET /core.js" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36"
+[2026-02-23T01:25:59.300Z]  "GET /chatInterface.js" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36"
+[2026-02-23T01:25:59.301Z]  "GET /script.js" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36"
+[2026-02-23T01:25:59.695Z]  "GET /vendor/transformers.js" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36"
+[2026-02-23T01:25:59.699Z]  "GET /cloudAPI.js" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36"
+[2026-02-23T01:26:00.239Z]  "GET /models/Xenova/LaMini-Flan-T5-77M/tokenizer.json" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36"
+[2026-02-23T01:26:00.239Z]  "GET /models/Xenova/LaMini-Flan-T5-77M/tokenizer_config.json" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36"
+[2026-02-23T01:26:00.240Z]  "GET /models/Xenova/LaMini-Flan-T5-77M/config.json" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36"
+[2026-02-23T01:26:00.241Z]  "GET /models/Xenova/LaMini-Flan-T5-77M/tokenizer.json" Error (404): "Not found"
+[2026-02-23T01:26:00.242Z]  "GET /models/Xenova/LaMini-Flan-T5-77M/tokenizer_config.json" Error (404): "Not found"
+[2026-02-23T01:26:00.242Z]  "GET /models/Xenova/LaMini-Flan-T5-77M/config.json" Error (404): "Not found"
+[2026-02-23T01:26:00.308Z]  "GET /models/Xenova/whisper-asr/tokenizer.json" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36"
+[2026-02-23T01:26:00.309Z]  "GET /models/Xenova/whisper-asr/tokenizer_config.json" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36"
+[2026-02-23T01:26:00.310Z]  "GET /models/Xenova/whisper-asr/tokenizer.json" Error (404): "Not found"
+[2026-02-23T01:26:00.310Z]  "GET /models/Xenova/whisper-asr/tokenizer_config.json" Error (404): "Not found"
+[2026-02-23T01:26:04.761Z]  "GET /%E8%A7%86%E9%A2%91%E8%B5%84%E6%BA%90/%E8%B4%9F%E9%9D%A2/jimeng-2025-07-16-9418-%E5%8F%8C%E6%89%8B%E5%8F%89%E8%85%B0%EF%BC%8C%E5%98%B4%E5%B7%B4%E4%B8%80%E7%9B%B4%E5%9C%A8%E5%98%9F%E5%9B%94%EF%BC%8C%E8%A1%A8%E6%83%85%E5%BE%AE%E5%BE%AE%E7%94%9F%E6%B0%94.mp4" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36"
+[2026-02-23T01:26:21.503Z]  "GET /" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36"
+[2026-02-23T01:26:21.521Z]  "GET /style.css" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36"
+[2026-02-23T01:26:21.521Z]  "GET /chatStyles.css" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36"
+[2026-02-23T01:26:21.535Z]  "GET /core.js" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36"
+[2026-02-23T01:26:21.535Z]  "GET /chatInterface.js" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36"
+[2026-02-23T01:26:21.536Z]  "GET /script.js" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36"
+[2026-02-23T01:26:21.536Z]  "GET /Bellaicon/Generated%20image.webp" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36"
+[2026-02-23T01:26:21.537Z]  "GET /%E8%A7%86%E9%A2%91%E8%B5%84%E6%BA%90/3D%20%E5%BB%BA%E6%A8%A1%E5%9B%BE%E7%89%87%E5%88%B6%E4%BD%9C.mp4" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36"
+[2026-02-23T01:26:21.548Z]  "GET /vendor/transformers.js" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36"
+[2026-02-23T01:26:21.572Z]  "GET /cloudAPI.js" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36"
+[2026-02-23T01:26:21.849Z]  "GET /models/Xenova/LaMini-Flan-T5-77M/tokenizer.json" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36"
+[2026-02-23T01:26:21.849Z]  "GET /models/Xenova/LaMini-Flan-T5-77M/tokenizer_config.json" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36"
+[2026-02-23T01:26:21.850Z]  "GET /models/Xenova/LaMini-Flan-T5-77M/config.json" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36"
+[2026-02-23T01:26:21.851Z]  "GET /models/Xenova/LaMini-Flan-T5-77M/tokenizer.json" Error (404): "Not found"
+[2026-02-23T01:26:21.851Z]  "GET /models/Xenova/LaMini-Flan-T5-77M/tokenizer_config.json" Error (404): "Not found"
+[2026-02-23T01:26:21.853Z]  "GET /models/Xenova/LaMini-Flan-T5-77M/config.json" Error (404): "Not found"
+[2026-02-23T01:26:21.905Z]  "GET /models/Xenova/whisper-asr/tokenizer.json" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36"
+[2026-02-23T01:26:21.906Z]  "GET /models/Xenova/whisper-asr/tokenizer_config.json" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36"
+[2026-02-23T01:26:21.906Z]  "GET /models/Xenova/whisper-asr/tokenizer.json" Error (404): "Not found"
+[2026-02-23T01:26:21.907Z]  "GET /models/Xenova/whisper-asr/tokenizer_config.json" Error (404): "Not found"
+[2026-02-23T01:26:26.707Z]  "GET /%E8%A7%86%E9%A2%91%E8%B5%84%E6%BA%90/jimeng-2025-07-16-1043-%E7%AC%91%E7%9D%80%E4%BC%98%E9%9B%85%E7%9A%84%E5%B7%A6%E5%8F%B3%E6%91%87%E6%99%83%EF%BC%8C%E8%BF%87%E4%B8%80%E4%BC%9A%E5%84%BF%E6%89%8B%E6%89%B6%E7%9D%80%E4%B8%8B%E5%B7%B4%EF%BC%8C%E4%BF%9D%E6%8C%81%E5%BE%AE%E7%AC%91.mp4" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.7499.4 Safari/537.36"
+http-server stopped.
