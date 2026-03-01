@@ -9,8 +9,7 @@ class CloudAPIService {
                 baseURL: 'https://api.openai.com/v1/chat/completions',
                 model: 'gpt-3.5-turbo',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer YOUR_OPENAI_API_KEY'
+                    'Content-Type': 'application/json'
                 }
             },
             // Alibaba Cloud Qwen configuration
@@ -18,8 +17,7 @@ class CloudAPIService {
                 baseURL: 'https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation',
                 model: 'qwen-turbo',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer YOUR_QWEN_API_KEY'
+                    'Content-Type': 'application/json'
                 }
             },
             // Baidu ERNIE Bot configuration
@@ -35,8 +33,7 @@ class CloudAPIService {
                 baseURL: 'https://open.bigmodel.cn/api/paas/v4/chat/completions',
                 model: 'glm-3-turbo',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer YOUR_GLM_API_KEY'
+                    'Content-Type': 'application/json'
                 }
             }
         };
@@ -297,10 +294,7 @@ Always maintain this warm, elegant, and authentic personality, helping users fee
         if (provider === 'ernie') {
             return !!config.accessToken;
         } else {
-            return config.headers['Authorization'] && 
-                   config.headers['Authorization'] !== 'Bearer YOUR_OPENAI_API_KEY' &&
-                   config.headers['Authorization'] !== 'Bearer YOUR_QWEN_API_KEY' &&
-                   config.headers['Authorization'] !== 'Bearer YOUR_GLM_API_KEY';
+            return !!config.headers['Authorization'];
         }
     }
 }
