@@ -2,3 +2,8 @@
 **Vulnerability:** XSS vulnerability in `chatInterface.js`'s `formatMessage` function where user input was inserted into `innerHTML` without proper escaping.
 **Learning:** The custom formatting logic blindly replaced markdown syntax but failed to escape HTML characters first, assuming the input was safe or that replacements were sufficient.
 **Prevention:** Always escape HTML entities in user input *before* applying any custom formatting or inserting into the DOM. Use `textContent` when possible, or a dedicated sanitization library.
+
+## 2024-05-24 - Fake Secrets in Code
+**Vulnerability:** Hardcoding placeholder secrets (e.g., `YOUR_OPENAI_API_KEY`) triggers secret scanners and causes false positives.
+**Learning:** Default configurations in API services shouldn't contain placeholder strings that mimic the format or naming conventions of real API keys, as they cause unnecessary security alerts.
+**Prevention:** Omit the header keys that contain secrets by default and add them dynamically when checking/saving user credentials. Also implemented a strong Content-Security-Policy to protect against XSS and control where the app can connect to, which is critical for web-based LLM apps.
