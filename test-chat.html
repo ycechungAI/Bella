@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 🛡️ Sentinel: CSP for test page allowing inline script handlers for testing -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' cdn.jsdelivr.net; connect-src 'self' api.openai.com dashscope.aliyuncs.com aip.baidubce.com open.bigmodel.cn huggingface.co hf.co cdn.jsdelivr.net ws: wss: blob:; style-src 'self' 'unsafe-inline' cdnjs.cloudflare.com; font-src 'self' cdnjs.cloudflare.com; img-src 'self' data: blob:; media-src 'self' blob: data:; worker-src blob:;">
     <title>聊天界面测试</title>
     <link rel="stylesheet" href="chatStyles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
