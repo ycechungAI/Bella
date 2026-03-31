@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src 'self' https://cdnjs.cloudflare.com; connect-src 'self' https://api.openai.com https://dashscope.aliyuncs.com https://aip.baidubce.com https://open.bigmodel.cn https://huggingface.co https://hf.co https://cdn.jsdelivr.net ws: wss: blob:; media-src 'self' blob:; worker-src 'self' blob:; img-src 'self' data: https://huggingface.co;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' cdnjs.cloudflare.com; font-src 'self' cdnjs.cloudflare.com;">
     <title>聊天界面测试</title>
     <link rel="stylesheet" href="chatStyles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -59,8 +59,8 @@
         <div class="status" id="status">等待操作...</div>
     </div>
 
-    <script src="chatInterface.js"></script>
-    <script>
+    <script type="module">
+        import { ChatInterface } from './chatInterface.js';
         let chatInterface;
         
         // 页面加载完成后初始化
@@ -144,6 +144,11 @@
             const statusEl = document.getElementById('status');
             statusEl.textContent = text;
         }
+
+        window.showChat = showChat;
+        window.hideChat = hideChat;
+        window.toggleChat = toggleChat;
+        window.checkStatus = checkStatus;
     </script>
 </body>
 </html>
