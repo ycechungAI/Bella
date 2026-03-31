@@ -294,7 +294,8 @@ Always maintain this warm, elegant, and authentic personality, helping users fee
         if (provider === 'ernie') {
             return !!config.accessToken;
         } else {
-            return !!config.headers['Authorization'];
+            // Check if the Authorization header is present and starts with Bearer
+            return !!config.headers['Authorization'] && config.headers['Authorization'].startsWith('Bearer ');
         }
     }
 }
