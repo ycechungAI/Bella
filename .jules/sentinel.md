@@ -7,3 +7,11 @@
 **Vulnerability:** Lack of Content Security Policy (CSP) headers or meta tags, allowing potential execution of unauthorized scripts and loading of malicious resources.
 **Learning:** Even with client-side escaping, a robust CSP is a critical defense-in-depth layer against XSS and data injection. Modern web apps using complex libraries like `transformers.js` (WASM, workers) require careful CSP crafting (`unsafe-eval`, `worker-src`) rather than omitting it entirely.
 **Prevention:** Always implement a strict CSP starting with `default-src 'self'` and whitelisting only necessary external resources (CDNs, APIs).
+## 2025-07-25 - Content Security Policy (CSP) Implementation Details
+**Vulnerability:** Missing Content Security Policy (CSP) leaving the application vulnerable to XSS and unauthorized data exfiltration.
+**Learning:** This AI app has specific technical requirements that make a strict CSP challenging:
+1. `script-src 'unsafe-eval'` is required by ONNX Runtime Web (`transformers.js`) for WASM execution.
+2. `worker-src blob:` is needed for web workers managed by the transformers library.
+3. `style-src 'unsafe-inline'` is necessary because `chatInterface.js` injects HTML strings with inline style attributes (e.g., `style="display: none;"`).
+4. Multiple external APIs (OpenAI, Aliyun, Baidu, Zhipu, HuggingFace) must be explicitly whitelisted in `connect-src`.
+**Prevention:** Implement a tailored CSP that balances security with the app's specific functional needs, restricting all other sources to `self` or trusted CDNs (`cdn.jsdelivr.net`, `cdnjs.cloudflare.com`).
