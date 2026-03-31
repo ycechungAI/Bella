@@ -3,6 +3,10 @@
 **Learning:** The custom formatting logic blindly replaced markdown syntax but failed to escape HTML characters first, assuming the input was safe or that replacements were sufficient.
 **Prevention:** Always escape HTML entities in user input *before* applying any custom formatting or inserting into the DOM. Use `textContent` when possible, or a dedicated sanitization library.
 
+## 2024-05-24 - Content Security Policy (CSP) Implementation for AI Models
+**Vulnerability:** Missing Content Security Policy (CSP) headers in `index.html` allowing potentially arbitrary scripts, styles, and untrusted domains to execute and interact with the application.
+**Learning:** Due to the use of ONNX Runtime Web via `transformers.js`, the CSP must explicitly permit `script-src 'unsafe-eval'` for WASM execution and `worker-src 'self' blob:` for Web Worker initialization. Furthermore, dynamic UI components injecting inline styles necessitate `style-src 'unsafe-inline'`. Cloud API endpoints (OpenAI, Aliyun, Baidu, Zhipu, HuggingFace) must be strictly whitelisted in `connect-src`.
+**Prevention:** Always implement a strict CSP that balances the tightest possible security restrictions with the specific execution needs of modern browser-based AI models and dynamic UI frameworks.
 ## 2025-02-23 - Missing Content Security Policy
 **Vulnerability:** Lack of Content Security Policy (CSP) headers or meta tags, allowing potential execution of unauthorized scripts and loading of malicious resources.
 **Learning:** Even with client-side escaping, a robust CSP is a critical defense-in-depth layer against XSS and data injection. Modern web apps using complex libraries like `transformers.js` (WASM, workers) require careful CSP crafting (`unsafe-eval`, `worker-src`) rather than omitting it entirely.
