@@ -3,6 +3,10 @@
 **Learning:** The custom formatting logic blindly replaced markdown syntax but failed to escape HTML characters first, assuming the input was safe or that replacements were sufficient.
 **Prevention:** Always escape HTML entities in user input *before* applying any custom formatting or inserting into the DOM. Use `textContent` when possible, or a dedicated sanitization library.
 
+## 2024-05-24 - CSP Configuration for Local AI Models
+**Vulnerability:** Missing Content-Security-Policy allowed potential XSS to execute external scripts or exfiltrate data.
+**Learning:** Implementing CSP in a WebAssembly/Local AI application (like one using ONNX runtime) requires specific allowances: `worker-src blob:` and `script-src 'unsafe-eval'`. It also requires whitelisting specific CDN and API domains (like huggingface.co, openai.com) for functionality.
+**Prevention:** Always implement a strict CSP that uses least privilege. Specifically document required exceptions like `unsafe-eval` when WebAssembly or dynamic code generation requires them to prevent them being removed by accident during audits.
 ## 2025-07-28 - Strict Content Security Policy implementation
 **Vulnerability:** A missing Content Security Policy enabled potential attacks like XSS by executing malicious scripts loaded from external sources or inline.
 **Learning:** Enforcing a CSP while utilizing dynamic WASM execution and blob workers via `transformers.js` demands the specific inclusion of `script-src 'unsafe-eval'` and `worker-src blob:`. Similarly, UI components that dynamically append unverified inline HTML to style rules require `style-src 'unsafe-inline'`.
