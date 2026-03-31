@@ -3,6 +3,10 @@
 **Learning:** The custom formatting logic blindly replaced markdown syntax but failed to escape HTML characters first, assuming the input was safe or that replacements were sufficient.
 **Prevention:** Always escape HTML entities in user input *before* applying any custom formatting or inserting into the DOM. Use `textContent` when possible, or a dedicated sanitization library.
 
+## 2026-03-18 - CSP Requirements for ONNX Runtime Web
+**Vulnerability:** Missing Content Security Policy (CSP) allowed potentially untrusted external scripts/data to run and made the app vulnerable to further injection attacks.
+**Learning:** Adding a basic CSP broke the application because `transformers.js` relies on ONNX Runtime WebAssembly, which requires `script-src 'unsafe-eval'` for WASM execution and `worker-src blob:` for its web workers. Dynamic styles injected by `chatInterface.js` also need `style-src 'unsafe-inline'`. Cloud APIs (OpenAI, Qwen, Ernie, GLM) required whitelisting their respective domains in `connect-src`.
+**Prevention:** When enforcing CSP on a client-side AI app using WASM, carefully balance security with functionality. Use a strict default policy, but whitelist `unsafe-eval` specifically for the script context that runs WASM, and explicitly map all required API endpoints.
 ## 2025-03-15 - Content Security Policy (CSP) Implementation
 **Vulnerability:** The application lacked a Content Security Policy (CSP), making it vulnerable to XSS and data exfiltration, especially given the dynamic creation of UI elements using `innerHTML` and loading models/scripts from CDNs.
 **Learning:** Due to the application's reliance on ONNX Runtime WebAssembly execution and dynamic UI styling, a strict CSP required specific allowances: `script-src 'unsafe-eval'` for WASM, `style-src 'unsafe-inline'` for dynamically injected styles in `chatInterface.js`, and `worker-src blob:` / `connect-src blob:` to support local model execution and web workers.
