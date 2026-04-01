@@ -106,6 +106,26 @@ Always maintain this warm, elegant, and authentic personality, helping users fee
         };
     }
 
+    // Enhanced fetch with timeout to prevent hanging API calls
+    async fetchWithTimeout(url, options = {}, timeout = 10000) {
+        const controller = new AbortController();
+        const id = setTimeout(() => controller.abort(), timeout);
+        try {
+            const response = await fetch(url, {
+                ...options,
+                signal: controller.signal
+            });
+            clearTimeout(id);
+            return response;
+        } catch (error) {
+            clearTimeout(id);
+            if (error.name === 'AbortError') {
+                throw new Error('API request timed out. Please try again later.');
+            }
+            throw error;
+        }
+    }
+
     // Call cloud API for conversation
     async chat(userMessage) {
         const config = this.apiConfigs[this.currentProvider];
@@ -154,7 +174,7 @@ Always maintain this warm, elegant, and authentic personality, helping users fee
             ...this.conversationHistory
         ];
 
-        const response = await fetch(config.baseURL, {
+        const response = await this.fetchWithTimeout(config.baseURL, {
             method: 'POST',
             headers: config.headers,
             body: JSON.stringify({
@@ -186,7 +206,7 @@ Always maintain this warm, elegant, and authentic personality, helping users fee
             ...this.conversationHistory
         ];
 
-        const response = await fetch(config.baseURL, {
+        const response = await this.fetchWithTimeout(config.baseURL, {
             method: 'POST',
             headers: config.headers,
             body: JSON.stringify({
@@ -222,7 +242,7 @@ Always maintain this warm, elegant, and authentic personality, helping users fee
 
         const url = `${config.baseURL}?access_token=${config.accessToken}`;
         
-        const response = await fetch(url, {
+        const response = await this.fetchWithTimeout(url, {
             method: 'POST',
             headers: config.headers,
             body: JSON.stringify({
@@ -251,7 +271,7 @@ Always maintain this warm, elegant, and authentic personality, helping users fee
             ...this.conversationHistory
         ];
 
-        const response = await fetch(config.baseURL, {
+        const response = await this.fetchWithTimeout(config.baseURL, {
             method: 'POST',
             headers: config.headers,
             body: JSON.stringify({
