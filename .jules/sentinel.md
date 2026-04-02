@@ -91,3 +91,7 @@
 3. `style-src 'unsafe-inline'` is necessary because `chatInterface.js` injects HTML strings with inline style attributes (e.g., `style="display: none;"`).
 4. Multiple external APIs (OpenAI, Aliyun, Baidu, Zhipu, HuggingFace) must be explicitly whitelisted in `connect-src`.
 **Prevention:** Implement a tailored CSP that balances security with the app's specific functional needs, restricting all other sources to `self` or trusted CDNs (`cdn.jsdelivr.net`, `cdnjs.cloudflare.com`).
+## 2024-05-25 - XSS via Inline Scripts in CSP
+**Vulnerability:** The Content Security Policy (CSP) for `test-chat.html` contained `script-src 'unsafe-inline'`, which effectively neutralized the policy's protection against Cross-Site Scripting (XSS) attacks by allowing arbitrary inline scripts to execute.
+**Learning:** Even in test files or auxiliary pages, using `'unsafe-inline'` in a CSP significantly degrades the application's overall security posture. Inline scripts and inline event handlers (like `onclick`) should be avoided.
+**Prevention:** Extracted the inline `<script type="module">` and inline event handlers from `test-chat.html` into a separate external file (`testChat.js`). This allowed the removal of `'unsafe-inline'` from the `script-src` directive, strictly enforcing a safer policy.
