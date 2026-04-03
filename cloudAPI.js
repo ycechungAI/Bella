@@ -75,6 +75,28 @@ class CloudAPIService {
         }
     }
 
+    // Custom fetch with timeout
+    async fetchWithTimeout(resource, options = {}) {
+        const { timeout = 10000 } = options;
+        const controller = new AbortController();
+        const id = setTimeout(() => controller.abort(), timeout);
+
+        try {
+            const response = await fetch(resource, {
+                ...options,
+                signal: controller.signal
+            });
+            clearTimeout(id);
+            return response;
+        } catch (error) {
+            clearTimeout(id);
+            if (error.name === 'AbortError') {
+                throw new Error(`Request timed out after ${timeout}ms`);
+            }
+            throw error;
+        }
+    }
+
     // Build Bella's enhanced personalized system prompt
     getBellaSystemPrompt() {
         return {
@@ -154,7 +176,7 @@ Always maintain this warm, elegant, and authentic personality, helping users fee
             ...this.conversationHistory
         ];
 
-        const response = await fetch(config.baseURL, {
+        const response = await this.fetchWithTimeout(config.baseURL, {
             method: 'POST',
             headers: config.headers,
             body: JSON.stringify({
@@ -167,7 +189,8 @@ Always maintain this warm, elegant, and authentic personality, helping users fee
                 frequency_penalty: 0.5,  // Added frequency penalty to reduce repetition
                 // Added stop tokens to avoid generating overly long responses
                 stop: ["User:", "Human:"]
-            })
+            }),
+            timeout: 10000
         });
 
         if (!response.ok) {
@@ -186,7 +209,7 @@ Always maintain this warm, elegant, and authentic personality, helping users fee
             ...this.conversationHistory
         ];
 
-        const response = await fetch(config.baseURL, {
+        const response = await this.fetchWithTimeout(config.baseURL, {
             method: 'POST',
             headers: config.headers,
             body: JSON.stringify({
@@ -201,7 +224,8 @@ Always maintain this warm, elegant, and authentic personality, helping users fee
                     repetition_penalty: 1.1, // Added repetition penalty to reduce repetitive content
                     result_format: 'message' // Ensure consistent return format
                 }
-            })
+            }),
+            timeout: 10000
         });
 
         if (!response.ok) {
@@ -222,7 +246,7 @@ Always maintain this warm, elegant, and authentic personality, helping users fee
 
         const url = `${config.baseURL}?access_token=${config.accessToken}`;
         
-        const response = await fetch(url, {
+        const response = await this.fetchWithTimeout(url, {
             method: 'POST',
             headers: config.headers,
             body: JSON.stringify({
@@ -232,7 +256,8 @@ Always maintain this warm, elegant, and authentic personality, helping users fee
                 max_output_tokens: 250,    // Increased token count for more complete responses
                 penalty_score: 1.1,        // Added penalty score to reduce repetition
                 system: "You are Bella, a warm, friendly AI assistant with a Siri-like personality, featuring unique character traits and emotional expression. Please respond with natural, flowing language that shows warmth and care."
-            })
+            }),
+            timeout: 10000
         });
 
         if (!response.ok) {
@@ -251,7 +276,7 @@ Always maintain this warm, elegant, and authentic personality, helping users fee
             ...this.conversationHistory
         ];
 
-        const response = await fetch(config.baseURL, {
+        const response = await this.fetchWithTimeout(config.baseURL, {
             method: 'POST',
             headers: config.headers,
             body: JSON.stringify({
@@ -262,7 +287,8 @@ Always maintain this warm, elegant, and authentic personality, helping users fee
                 top_p: 0.92,               // Fine-tuned top_p for more natural language
                 frequency_penalty: 1.05,   // Added frequency penalty to reduce repetition
                 presence_penalty: 0.3      // Added presence penalty to encourage diversity
-            })
+            }),
+            timeout: 10000
         });
 
         if (!response.ok) {
