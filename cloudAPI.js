@@ -106,6 +106,25 @@ Always maintain this warm, elegant, and authentic personality, helping users fee
         };
     }
 
+    // Helper method for timeout
+    async fetchWithTimeout(resource, options = {}) {
+        // AI responses can take a while, so default to 60 seconds (60000ms)
+        const { timeout = 60000 } = options;
+
+        const controller = new AbortController();
+        const id = setTimeout(() => controller.abort(), timeout);
+
+        try {
+            const response = await fetch(resource, {
+                ...options,
+                signal: controller.signal
+            });
+            return response;
+        } finally {
+            clearTimeout(id);
+        }
+    }
+
     // Call cloud API for conversation
     async chat(userMessage) {
         const config = this.apiConfigs[this.currentProvider];
@@ -154,9 +173,10 @@ Always maintain this warm, elegant, and authentic personality, helping users fee
             ...this.conversationHistory
         ];
 
-        const response = await fetch(config.baseURL, {
+        const response = await this.fetchWithTimeout(config.baseURL, {
             method: 'POST',
             headers: config.headers,
+            timeout: 60000,
             body: JSON.stringify({
                 model: config.model,
                 messages: messages,
@@ -186,9 +206,10 @@ Always maintain this warm, elegant, and authentic personality, helping users fee
             ...this.conversationHistory
         ];
 
-        const response = await fetch(config.baseURL, {
+        const response = await this.fetchWithTimeout(config.baseURL, {
             method: 'POST',
             headers: config.headers,
+            timeout: 60000,
             body: JSON.stringify({
                 model: config.model,
                 input: {
@@ -222,9 +243,10 @@ Always maintain this warm, elegant, and authentic personality, helping users fee
 
         const url = `${config.baseURL}?access_token=${config.accessToken}`;
         
-        const response = await fetch(url, {
+        const response = await this.fetchWithTimeout(url, {
             method: 'POST',
             headers: config.headers,
+            timeout: 60000,
             body: JSON.stringify({
                 messages: messages,
                 temperature: 0.75,         // Adjusted temperature to balance creativity and consistency
@@ -251,9 +273,10 @@ Always maintain this warm, elegant, and authentic personality, helping users fee
             ...this.conversationHistory
         ];
 
-        const response = await fetch(config.baseURL, {
+        const response = await this.fetchWithTimeout(config.baseURL, {
             method: 'POST',
             headers: config.headers,
+            timeout: 60000,
             body: JSON.stringify({
                 model: config.model,
                 messages: messages,
