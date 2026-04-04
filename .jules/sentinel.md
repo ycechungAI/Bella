@@ -95,3 +95,12 @@
 **Vulnerability:** External API calls to Cloud AI providers (OpenAI, Qwen, Ernie, GLM) lacked timeout configurations, potentially leading to hanging connections, resource exhaustion, and Denial of Service (DoS) for the client application.
 **Learning:** Default `fetch` calls in JavaScript do not have a timeout. When integrating with third-party services, especially generative AI APIs which can be slow or unresponsive, relying on the browser's default timeout (which can be several minutes) is dangerous and can block application flow or UI updates.
 **Prevention:** Always wrap external API calls with a timeout mechanism. In modern JavaScript, use `AbortController` combined with `setTimeout` to enforce a strict upper bound (e.g., 10 seconds) on how long the application will wait for a response.
+
+## 2026-04-03 - Missing Timeout on External API Calls
+**Vulnerability:** External API calls to LLM providers (OpenAI, Qwen, Ernie, GLM) were made using native `fetch` without any timeout configuration. This could lead to unhandled hanging connections and resource exhaustion (client-side DoS) if the remote server is unresponsive or the network is unstable.
+**Learning:** The native `fetch` API does not have a default timeout. In AI applications where API generation times can vary significantly or connections can hang, relying on the browser's default timeout (which can be several minutes) severely degrades user experience and ties up resources.
+**Prevention:** Always implement an `AbortController` wrapper for `fetch` calls to enforce a strict timeout (e.g., 10 seconds), ensuring the application can gracefully recover or inform the user of network issues.
+## 2024-05-25 - XSS via Inline Scripts in CSP
+**Vulnerability:** The Content Security Policy (CSP) for `test-chat.html` contained `script-src 'unsafe-inline'`, which effectively neutralized the policy's protection against Cross-Site Scripting (XSS) attacks by allowing arbitrary inline scripts to execute.
+**Learning:** Even in test files or auxiliary pages, using `'unsafe-inline'` in a CSP significantly degrades the application's overall security posture. Inline scripts and inline event handlers (like `onclick`) should be avoided.
+**Prevention:** Extracted the inline `<script type="module">` and inline event handlers from `test-chat.html` into a separate external file (`testChat.js`). This allowed the removal of `'unsafe-inline'` from the `script-src` directive, strictly enforcing a safer policy.
