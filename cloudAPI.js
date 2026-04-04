@@ -128,6 +128,26 @@ Always maintain this warm, elegant, and authentic personality, helping users fee
         };
     }
 
+    // Enhanced fetch with timeout to prevent hanging API calls
+    async fetchWithTimeout(url, options = {}, timeout = 10000) {
+        const controller = new AbortController();
+        const id = setTimeout(() => controller.abort(), timeout);
+        try {
+            const response = await fetch(url, {
+                ...options,
+                signal: controller.signal
+            });
+            clearTimeout(id);
+            return response;
+        } catch (error) {
+            clearTimeout(id);
+            if (error.name === 'AbortError') {
+                throw new Error('API request timed out. Please try again later.');
+            }
+            throw error;
+        }
+    }
+
     // Call cloud API for conversation
     async chat(userMessage) {
         const config = this.apiConfigs[this.currentProvider];
