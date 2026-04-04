@@ -199,6 +199,7 @@ Always maintain this warm, elegant, and authentic personality, helping users fee
         const response = await this.fetchWithTimeout(config.baseURL, {
             method: 'POST',
             headers: config.headers,
+            timeout: 60000,
             body: JSON.stringify({
                 model: config.model,
                 messages: messages,
@@ -232,6 +233,7 @@ Always maintain this warm, elegant, and authentic personality, helping users fee
         const response = await this.fetchWithTimeout(config.baseURL, {
             method: 'POST',
             headers: config.headers,
+            timeout: 60000,
             body: JSON.stringify({
                 model: config.model,
                 input: {
@@ -269,6 +271,7 @@ Always maintain this warm, elegant, and authentic personality, helping users fee
         const response = await this.fetchWithTimeout(url, {
             method: 'POST',
             headers: config.headers,
+            timeout: 60000,
             body: JSON.stringify({
                 messages: messages,
                 temperature: 0.75,         // Adjusted temperature to balance creativity and consistency
@@ -299,6 +302,7 @@ Always maintain this warm, elegant, and authentic personality, helping users fee
         const response = await this.fetchWithTimeout(config.baseURL, {
             method: 'POST',
             headers: config.headers,
+            timeout: 60000,
             body: JSON.stringify({
                 model: config.model,
                 messages: messages,

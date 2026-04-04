@@ -91,6 +91,10 @@
 3. `style-src 'unsafe-inline'` is necessary because `chatInterface.js` injects HTML strings with inline style attributes (e.g., `style="display: none;"`).
 4. Multiple external APIs (OpenAI, Aliyun, Baidu, Zhipu, HuggingFace) must be explicitly whitelisted in `connect-src`.
 **Prevention:** Implement a tailored CSP that balances security with the app's specific functional needs, restricting all other sources to `self` or trusted CDNs (`cdn.jsdelivr.net`, `cdnjs.cloudflare.com`).
+## 2024-05-24 - Missing Timeout on External API Calls
+**Vulnerability:** External API calls to Cloud AI providers (OpenAI, Qwen, Ernie, GLM) lacked timeout configurations, potentially leading to hanging connections, resource exhaustion, and Denial of Service (DoS) for the client application.
+**Learning:** Default `fetch` calls in JavaScript do not have a timeout. When integrating with third-party services, especially generative AI APIs which can be slow or unresponsive, relying on the browser's default timeout (which can be several minutes) is dangerous and can block application flow or UI updates.
+**Prevention:** Always wrap external API calls with a timeout mechanism. In modern JavaScript, use `AbortController` combined with `setTimeout` to enforce a strict upper bound (e.g., 10 seconds) on how long the application will wait for a response.
 
 ## 2026-04-03 - Missing Timeout on External API Calls
 **Vulnerability:** External API calls to LLM providers (OpenAI, Qwen, Ernie, GLM) were made using native `fetch` without any timeout configuration. This could lead to unhandled hanging connections and resource exhaustion (client-side DoS) if the remote server is unresponsive or the network is unstable.
