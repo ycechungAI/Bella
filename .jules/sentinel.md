@@ -91,6 +91,11 @@
 3. `style-src 'unsafe-inline'` is necessary because `chatInterface.js` injects HTML strings with inline style attributes (e.g., `style="display: none;"`).
 4. Multiple external APIs (OpenAI, Aliyun, Baidu, Zhipu, HuggingFace) must be explicitly whitelisted in `connect-src`.
 **Prevention:** Implement a tailored CSP that balances security with the app's specific functional needs, restricting all other sources to `self` or trusted CDNs (`cdn.jsdelivr.net`, `cdnjs.cloudflare.com`).
+
+## 2026-04-03 - Missing Timeout on External API Calls
+**Vulnerability:** External API calls to LLM providers (OpenAI, Qwen, Ernie, GLM) were made using native `fetch` without any timeout configuration. This could lead to unhandled hanging connections and resource exhaustion (client-side DoS) if the remote server is unresponsive or the network is unstable.
+**Learning:** The native `fetch` API does not have a default timeout. In AI applications where API generation times can vary significantly or connections can hang, relying on the browser's default timeout (which can be several minutes) severely degrades user experience and ties up resources.
+**Prevention:** Always implement an `AbortController` wrapper for `fetch` calls to enforce a strict timeout (e.g., 10 seconds), ensuring the application can gracefully recover or inform the user of network issues.
 ## 2024-05-25 - XSS via Inline Scripts in CSP
 **Vulnerability:** The Content Security Policy (CSP) for `test-chat.html` contained `script-src 'unsafe-inline'`, which effectively neutralized the policy's protection against Cross-Site Scripting (XSS) attacks by allowing arbitrary inline scripts to execute.
 **Learning:** Even in test files or auxiliary pages, using `'unsafe-inline'` in a CSP significantly degrades the application's overall security posture. Inline scripts and inline event handlers (like `onclick`) should be avoided.
