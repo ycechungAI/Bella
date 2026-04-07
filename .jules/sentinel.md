@@ -100,6 +100,11 @@
 **Vulnerability:** External API calls to LLM providers (OpenAI, Qwen, Ernie, GLM) were made using native `fetch` without any timeout configuration. This could lead to unhandled hanging connections and resource exhaustion (client-side DoS) if the remote server is unresponsive or the network is unstable.
 **Learning:** The native `fetch` API does not have a default timeout. In AI applications where API generation times can vary significantly or connections can hang, relying on the browser's default timeout (which can be several minutes) severely degrades user experience and ties up resources.
 **Prevention:** Always implement an `AbortController` wrapper for `fetch` calls to enforce a strict timeout (e.g., 10 seconds), ensuring the application can gracefully recover or inform the user of network issues.
+## 2026-04-07 - Command Injection via exec
+**Vulnerability:** The `download_models.js` script used `child_process.exec` to execute `git clone`, constructing the shell command via string interpolation (`git clone --depth 1 ${modelUrl} ${targetDir}`). If `modelUrl` or `targetDir` were to be controlled by user input or an external source in the future, it could allow arbitrary command execution.
+**Learning:** Using `exec` invokes a shell and evaluates the entire string, opening the door to command injection if any variable within the string is improperly sanitized.
+**Prevention:** Always use `child_process.execFile` or `spawn` when executing commands with arguments, passing the command and its arguments as a separate array. This prevents the shell from interpreting shell metacharacters within the arguments.
+
 ## 2024-05-25 - XSS via Inline Scripts in CSP
 **Vulnerability:** The Content Security Policy (CSP) for `test-chat.html` contained `script-src 'unsafe-inline'`, which effectively neutralized the policy's protection against Cross-Site Scripting (XSS) attacks by allowing arbitrary inline scripts to execute.
 **Learning:** Even in test files or auxiliary pages, using `'unsafe-inline'` in a CSP significantly degrades the application's overall security posture. Inline scripts and inline event handlers (like `onclick`) should be avoided.
