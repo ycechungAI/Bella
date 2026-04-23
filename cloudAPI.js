@@ -91,7 +91,7 @@ class CloudAPIService {
         } catch (error) {
             clearTimeout(id);
             if (error.name === 'AbortError') {
-                throw new Error(`Request timed out after ${timeout}ms`);
+                throw new Error('API request timed out. Please try again later.');
             }
             throw error;
         }
@@ -128,25 +128,6 @@ Always maintain this warm, elegant, and authentic personality, helping users fee
         };
     }
 
-    // Enhanced fetch with timeout to prevent hanging API calls
-    async fetchWithTimeout(url, options = {}, timeout = 10000) {
-        const controller = new AbortController();
-        const id = setTimeout(() => controller.abort(), timeout);
-        try {
-            const response = await fetch(url, {
-                ...options,
-                signal: controller.signal
-            });
-            clearTimeout(id);
-            return response;
-        } catch (error) {
-            clearTimeout(id);
-            if (error.name === 'AbortError') {
-                throw new Error('API request timed out. Please try again later.');
-            }
-            throw error;
-        }
-    }
 
     // Call cloud API for conversation
     async chat(userMessage) {
@@ -211,7 +192,7 @@ Always maintain this warm, elegant, and authentic personality, helping users fee
                 // Added stop tokens to avoid generating overly long responses
                 stop: ["User:", "Human:"]
             }),
-            timeout: 10000
+
         });
 
         if (!response.ok) {
@@ -247,7 +228,7 @@ Always maintain this warm, elegant, and authentic personality, helping users fee
                     result_format: 'message' // Ensure consistent return format
                 }
             }),
-            timeout: 10000
+
         });
 
         if (!response.ok) {
@@ -280,7 +261,7 @@ Always maintain this warm, elegant, and authentic personality, helping users fee
                 penalty_score: 1.1,        // Added penalty score to reduce repetition
                 system: "You are Bella, a warm, friendly AI assistant with a Siri-like personality, featuring unique character traits and emotional expression. Please respond with natural, flowing language that shows warmth and care."
             }),
-            timeout: 10000
+
         });
 
         if (!response.ok) {
@@ -312,7 +293,7 @@ Always maintain this warm, elegant, and authentic personality, helping users fee
                 frequency_penalty: 1.05,   // Added frequency penalty to reduce repetition
                 presence_penalty: 0.3      // Added presence penalty to encourage diversity
             }),
-            timeout: 10000
+
         });
 
         if (!response.ok) {
