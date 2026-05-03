@@ -104,3 +104,7 @@
 **Vulnerability:** The Content Security Policy (CSP) for `test-chat.html` contained `script-src 'unsafe-inline'`, which effectively neutralized the policy's protection against Cross-Site Scripting (XSS) attacks by allowing arbitrary inline scripts to execute.
 **Learning:** Even in test files or auxiliary pages, using `'unsafe-inline'` in a CSP significantly degrades the application's overall security posture. Inline scripts and inline event handlers (like `onclick`) should be avoided.
 **Prevention:** Extracted the inline `<script type="module">` and inline event handlers from `test-chat.html` into a separate external file (`testChat.js`). This allowed the removal of `'unsafe-inline'` from the `script-src` directive, strictly enforcing a safer policy.
+## 2024-05-24 - Command Injection via child_process.exec
+**Vulnerability:** The `download_models.js` script used `child_process.exec` to run `git clone`, constructing the shell command via string interpolation. This poses a command injection risk if variables like `modelUrl` or `targetDir` can be influenced by untrusted input.
+**Learning:** `child_process.exec` passes the constructed string to a shell, which interprets shell metacharacters and allows chaining commands (e.g. via `;` or `&&`). This makes it vulnerable to injection attacks.
+**Prevention:** Use `child_process.execFile` (or `spawn`) and pass arguments as an array rather than interpolating them into a single string. This avoids passing the command to a shell interpreter, neutralizing the risk of shell injection.
