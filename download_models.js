@@ -1,7 +1,7 @@
 // download_models.js
 // This script downloads the required models from Hugging Face to the local 'models' directory.
 
-import { exec } from 'child_process';
+import { execFile } from 'child_process';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import fs from 'fs/promises';
@@ -19,12 +19,12 @@ const models = {
 // Define where to save the models
 const modelsPath = path.resolve(__dirname, 'models');
 
-// Promisify exec
-const execPromise = (command) => {
+// Promisify execFile
+const execPromise = (command, args) => {
     return new Promise((resolve, reject) => {
-        exec(command, (error, stdout, stderr) => {
+        execFile(command, args, (error, stdout, stderr) => {
             if (error) {
-                console.error(`exec error: ${error}`);
+                console.error(`execFile error: ${error}`);
                 return reject(error);
             }
             console.log(stdout);
@@ -43,7 +43,7 @@ async function download() {
         console.log(`\nCloning ${modelName} from ${modelUrl}...`);
         try {
             // Use --depth 1 for a shallow clone to save space and time
-            await execPromise(`git clone --depth 1 ${modelUrl} ${targetDir}`);
+            await execPromise('git', ['clone', '--depth', '1', modelUrl, targetDir]);
             console.log(`Successfully cloned ${modelName}`);
         } catch (error) {
             console.error(`\nFailed to clone ${modelName}:`, error);
