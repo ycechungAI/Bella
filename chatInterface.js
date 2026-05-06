@@ -285,6 +285,12 @@ class ChatInterface {
         const text = this.messageInput.value.trim();
         if (!text) return;
 
+        // Security Enhancement: Validate input length to prevent potential DoS from excessively large payloads
+        if (text.length > 500) {
+            this.addMessage('assistant', 'The message is too long. Please keep it under 500 characters.');
+            return;
+        }
+
         // 添加用户消息
         this.addMessage('user', text);
         
