@@ -285,6 +285,13 @@ class ChatInterface {
         const text = this.messageInput.value.trim();
         if (!text) return;
 
+        // Add javascript logic-level input validation to prevent client-side DoS
+        if (text.length > 500) {
+            console.warn('Message exceeds maximum length of 500 characters.');
+            this.addMessage('assistant', 'Sorry, your message is too long. Please keep it under 500 characters.');
+            return;
+        }
+
         // 添加用户消息
         this.addMessage('user', text);
         
