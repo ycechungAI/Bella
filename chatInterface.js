@@ -282,8 +282,13 @@ class ChatInterface {
 
     // 发送消息
     sendMessage() {
-        const text = this.messageInput.value.trim();
+        let text = this.messageInput.value.trim();
         if (!text) return;
+
+        // 强制截断超长输入，防止客户端 DoS
+        if (text.length > 500) {
+            text = text.substring(0, 500);
+        }
 
         // 添加用户消息
         this.addMessage('user', text);
