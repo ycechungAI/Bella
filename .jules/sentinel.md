@@ -104,3 +104,7 @@
 **Vulnerability:** The Content Security Policy (CSP) for `test-chat.html` contained `script-src 'unsafe-inline'`, which effectively neutralized the policy's protection against Cross-Site Scripting (XSS) attacks by allowing arbitrary inline scripts to execute.
 **Learning:** Even in test files or auxiliary pages, using `'unsafe-inline'` in a CSP significantly degrades the application's overall security posture. Inline scripts and inline event handlers (like `onclick`) should be avoided.
 **Prevention:** Extracted the inline `<script type="module">` and inline event handlers from `test-chat.html` into a separate external file (`testChat.js`). This allowed the removal of `'unsafe-inline'` from the `script-src` directive, strictly enforcing a safer policy.
+## 2024-05-24 - Command Injection Prevention in Node.js
+**Vulnerability:** The `download_models.js` script used `child_process.exec` to execute shell commands with string interpolation, exposing the application to potential command injection if the variables were ever influenced by user input.
+**Learning:** Using `exec` with dynamically constructed strings is unsafe. Passing an array of arguments to `execFile` ensures that arguments are passed safely without invoking a shell to parse them, effectively mitigating command injection risks.
+**Prevention:** Always use `child_process.execFile` or `child_process.spawn` instead of `exec` when executing system commands, especially when involving variables.
