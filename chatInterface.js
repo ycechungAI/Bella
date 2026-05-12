@@ -285,6 +285,14 @@ class ChatInterface {
         const text = this.messageInput.value.trim();
         if (!text) return;
 
+        // Security Enhancement: Enforce maximum input length to prevent client-side DoS
+        // and excessive payload size before processing or sending to AI APIs
+        const MAX_INPUT_LENGTH = 500;
+        if (text.length > MAX_INPUT_LENGTH) {
+            this.showNotification(`消息过长，请限制在 ${MAX_INPUT_LENGTH} 字符以内`, 'error');
+            return;
+        }
+
         // 添加用户消息
         this.addMessage('user', text);
         
