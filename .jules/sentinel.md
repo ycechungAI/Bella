@@ -104,3 +104,8 @@
 **Vulnerability:** The Content Security Policy (CSP) for `test-chat.html` contained `script-src 'unsafe-inline'`, which effectively neutralized the policy's protection against Cross-Site Scripting (XSS) attacks by allowing arbitrary inline scripts to execute.
 **Learning:** Even in test files or auxiliary pages, using `'unsafe-inline'` in a CSP significantly degrades the application's overall security posture. Inline scripts and inline event handlers (like `onclick`) should be avoided.
 **Prevention:** Extracted the inline `<script type="module">` and inline event handlers from `test-chat.html` into a separate external file (`testChat.js`). This allowed the removal of `'unsafe-inline'` from the `script-src` directive, strictly enforcing a safer policy.
+
+## 2026-06-12 - Conflicting Multiple CSP Tags
+**Vulnerability:** Having multiple Content-Security-Policy meta tags in `index.html` causes overly restrictive intersections, leading to unintended breakage of blob workers or missing capabilities while not providing the intended clear, unified security boundaries.
+**Learning:** Browsers apply the intersection of all CSP policies defined. If one tag allows `blob:` but another does not, the resource will be blocked. Having multiple tags is an error-prone pattern that often accidentally breaks necessary components.
+**Prevention:** Always maintain a single, consolidated Content Security Policy (CSP) `<meta>` tag to clearly and explicitly define the whitelist for all capabilities, including WebAssembly and blob workers.
