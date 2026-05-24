@@ -285,6 +285,13 @@ class ChatInterface {
         const text = this.messageInput.value.trim();
         if (!text) return;
 
+        // 限制输入长度，防止拒绝服务攻击 (DoS)
+        if (text.length > 500) {
+            console.warn('Message exceeded 500 character limit.');
+            alert('消息长度不能超过500个字符');
+            return;
+        }
+
         // 添加用户消息
         this.addMessage('user', text);
         
@@ -343,8 +350,8 @@ class ChatInterface {
 
     // HTML转义
     escapeHtml(unsafe) {
-        if (!unsafe) return '';
-        return unsafe
+        if (unsafe == null) return '';
+        return String(unsafe)
             .replace(/&/g, "&amp;")
             .replace(/</g, "&lt;")
             .replace(/>/g, "&gt;")
@@ -354,8 +361,9 @@ class ChatInterface {
 
     // 格式化消息内容
     formatMessage(content) {
+        if (content == null) return '';
         // First escape HTML to prevent XSS
-        let safeContent = content
+        let safeContent = String(content)
             .replace(/&/g, "&amp;")
             .replace(/</g, "&lt;")
             .replace(/>/g, "&gt;")
