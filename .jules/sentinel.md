@@ -104,3 +104,8 @@
 **Vulnerability:** The Content Security Policy (CSP) for `test-chat.html` contained `script-src 'unsafe-inline'`, which effectively neutralized the policy's protection against Cross-Site Scripting (XSS) attacks by allowing arbitrary inline scripts to execute.
 **Learning:** Even in test files or auxiliary pages, using `'unsafe-inline'` in a CSP significantly degrades the application's overall security posture. Inline scripts and inline event handlers (like `onclick`) should be avoided.
 **Prevention:** Extracted the inline `<script type="module">` and inline event handlers from `test-chat.html` into a separate external file (`testChat.js`). This allowed the removal of `'unsafe-inline'` from the `script-src` directive, strictly enforcing a safer policy.
+
+## 2026-05-25 - Missing Input Length Validation (DoS Risk)
+**Vulnerability:** The `sendMessage()` function in `chatInterface.js` lacked an explicit length check before processing and rendering user messages. Relying solely on the HTML `maxlength` attribute allowed programmatic bypass, potentially leading to client-side Denial of Service (DoS) due to processing and escaping massive strings.
+**Learning:** Client-side HTML validations (like `maxlength`) are easily bypassed by direct API calls or developer tools. Processing unbounded input can freeze the UI or exhaust memory, even if properly escaped for XSS.
+**Prevention:** Always implement explicit boundary checks on user input within the JavaScript logic, in addition to UI attributes, to enforce safe processing constraints.
