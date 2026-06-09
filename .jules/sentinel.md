@@ -104,3 +104,8 @@
 **Vulnerability:** The Content Security Policy (CSP) for `test-chat.html` contained `script-src 'unsafe-inline'`, which effectively neutralized the policy's protection against Cross-Site Scripting (XSS) attacks by allowing arbitrary inline scripts to execute.
 **Learning:** Even in test files or auxiliary pages, using `'unsafe-inline'` in a CSP significantly degrades the application's overall security posture. Inline scripts and inline event handlers (like `onclick`) should be avoided.
 **Prevention:** Extracted the inline `<script type="module">` and inline event handlers from `test-chat.html` into a separate external file (`testChat.js`). This allowed the removal of `'unsafe-inline'` from the `script-src` directive, strictly enforcing a safer policy.
+
+## 2024-06-09 - XSS Bypass via Type Coercion in HTML Escaping
+**Vulnerability:** The manual HTML escaping functions `escapeHtml` and `formatMessage` lacked strict type coercion. They could throw TypeErrors for null/undefined, suppress valid falsy values like '0' (due to `!unsafe`), and potentially bypass XSS protection if an object with a custom `replace` method or an array was passed.
+**Learning:** When writing custom input sanitization functions, enforcing primitive string coercion (`String(value)`) is essential. Relying on implicit typing or simple truthy checks can lead to unexpected behavior, bypasses, or denial of service via TypeErrors.
+**Prevention:** Always explicitly check for `null` and `undefined`, and strictly coerce inputs to strings (e.g., using `String()`) before applying string manipulation or sanitization routines.
