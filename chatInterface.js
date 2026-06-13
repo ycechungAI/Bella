@@ -343,8 +343,8 @@ class ChatInterface {
 
     // HTML转义
     escapeHtml(unsafe) {
-        if (!unsafe) return '';
-        return unsafe
+        if (unsafe === null || unsafe === undefined) return '';
+        return String(unsafe)
             .replace(/&/g, "&amp;")
             .replace(/</g, "&lt;")
             .replace(/>/g, "&gt;")
@@ -355,7 +355,8 @@ class ChatInterface {
     // 格式化消息内容
     formatMessage(content) {
         // First escape HTML to prevent XSS
-        let safeContent = content
+        if (content === null || content === undefined) return '';
+        let safeContent = String(content)
             .replace(/&/g, "&amp;")
             .replace(/</g, "&lt;")
             .replace(/>/g, "&gt;")
