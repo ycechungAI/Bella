@@ -104,3 +104,8 @@
 **Vulnerability:** The Content Security Policy (CSP) for `test-chat.html` contained `script-src 'unsafe-inline'`, which effectively neutralized the policy's protection against Cross-Site Scripting (XSS) attacks by allowing arbitrary inline scripts to execute.
 **Learning:** Even in test files or auxiliary pages, using `'unsafe-inline'` in a CSP significantly degrades the application's overall security posture. Inline scripts and inline event handlers (like `onclick`) should be avoided.
 **Prevention:** Extracted the inline `<script type="module">` and inline event handlers from `test-chat.html` into a separate external file (`testChat.js`). This allowed the removal of `'unsafe-inline'` from the `script-src` directive, strictly enforcing a safer policy.
+
+## 2025-10-24 - Missing String Coercion in Manual HTML Escaping Logic
+**Vulnerability:** The manual HTML escaping functions `escapeHtml` and `formatMessage` did not explicitly coerce inputs to strings. They relied on truthiness `if (!unsafe)` which failed to handle `0` or `false` properly, and directly called `.replace()` on the input object. This exposed the application to XSS bypasses, such as Prototype Pollution or passing malicious objects masquerading as strings with custom `.replace` methods.
+**Learning:** Checking for truthiness is insufficient for robust parameter validation, and duck typing (assuming anything with a `.replace` method is safe) is dangerous when processing untrusted input for escaping.
+**Prevention:** When performing manual HTML escaping, always explicitly coerce inputs to primitive types (e.g., using `String()`) to strip away potentially malicious methods or prototypes, and use strict equality comparisons (like `=== null` or `=== undefined`) instead of falsy checks.
