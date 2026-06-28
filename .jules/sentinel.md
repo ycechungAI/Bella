@@ -100,7 +100,8 @@
 **Vulnerability:** External API calls to LLM providers (OpenAI, Qwen, Ernie, GLM) were made using native `fetch` without any timeout configuration. This could lead to unhandled hanging connections and resource exhaustion (client-side DoS) if the remote server is unresponsive or the network is unstable.
 **Learning:** The native `fetch` API does not have a default timeout. In AI applications where API generation times can vary significantly or connections can hang, relying on the browser's default timeout (which can be several minutes) severely degrades user experience and ties up resources.
 **Prevention:** Always implement an `AbortController` wrapper for `fetch` calls to enforce a strict timeout (e.g., 10 seconds), ensuring the application can gracefully recover or inform the user of network issues.
-## 2024-05-25 - XSS via Inline Scripts in CSP
-**Vulnerability:** The Content Security Policy (CSP) for `test-chat.html` contained `script-src 'unsafe-inline'`, which effectively neutralized the policy's protection against Cross-Site Scripting (XSS) attacks by allowing arbitrary inline scripts to execute.
-**Learning:** Even in test files or auxiliary pages, using `'unsafe-inline'` in a CSP significantly degrades the application's overall security posture. Inline scripts and inline event handlers (like `onclick`) should be avoided.
-**Prevention:** Extracted the inline `<script type="module">` and inline event handlers from `test-chat.html` into a separate external file (`testChat.js`). This allowed the removal of `'unsafe-inline'` from the `script-src` directive, strictly enforcing a safer policy.
+
+## 2024-06-28 - XSS Bypass in Manual HTML Escaping
+**Vulnerability:** Manual HTML escaping functions (`escapeHtml`, `formatMessage`) relied on truthiness checks (`if (!unsafe)`) and did not explicitly coerce inputs to strings, allowing XSS bypasses if valid falsy values like `0` were dropped, or if objects with custom `replace` methods were passed.
+**Learning:** When implementing manual string sanitization, input must be strictly coerced to a primitive string (e.g., `String(input)`) before calling string methods to prevent prototype pollution or object-based bypasses. Furthermore, strict equality checks (`null` or `undefined`) must be used instead of falsiness to ensure legitimate data isn't inadvertently suppressed.
+**Prevention:** Always use `String(input)` coercion before processing text for sanitization and avoid loose truthiness checks for input validation.
