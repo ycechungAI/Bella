@@ -104,3 +104,8 @@
 **Vulnerability:** The Content Security Policy (CSP) for `test-chat.html` contained `script-src 'unsafe-inline'`, which effectively neutralized the policy's protection against Cross-Site Scripting (XSS) attacks by allowing arbitrary inline scripts to execute.
 **Learning:** Even in test files or auxiliary pages, using `'unsafe-inline'` in a CSP significantly degrades the application's overall security posture. Inline scripts and inline event handlers (like `onclick`) should be avoided.
 **Prevention:** Extracted the inline `<script type="module">` and inline event handlers from `test-chat.html` into a separate external file (`testChat.js`). This allowed the removal of `'unsafe-inline'` from the `script-src` directive, strictly enforcing a safer policy.
+
+## 2024-05-27 - Object-based XSS Bypass in Custom HTML Escaping Functions
+**Vulnerability:** XSS bypass in `chatInterface.js`'s `escapeHtml` and `formatMessage` functions where string manipulation (e.g., `replace`) could be bypassed by passing objects with custom `replace` or `toString` methods. Additionally, falsiness checks (`!unsafe`) incorrectly suppressed valid falsey values like `0`.
+**Learning:** Custom HTML escaping functions that do not strictly cast input to primitives before applying `.replace` can be exploited via object injection/prototype pollution. Weak falsiness checks can also disrupt data integrity for valid falsy values.
+**Prevention:** Always enforce strict coercion to primitives (e.g., `String()`) before executing string replacements or sanitization logic on user input. Use strict equality checks (`=== null || === undefined`) rather than truthiness when filtering out invalid inputs to ensure valid falsy values are processed correctly.
