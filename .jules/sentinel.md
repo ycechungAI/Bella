@@ -100,6 +100,11 @@
 **Vulnerability:** External API calls to LLM providers (OpenAI, Qwen, Ernie, GLM) were made using native `fetch` without any timeout configuration. This could lead to unhandled hanging connections and resource exhaustion (client-side DoS) if the remote server is unresponsive or the network is unstable.
 **Learning:** The native `fetch` API does not have a default timeout. In AI applications where API generation times can vary significantly or connections can hang, relying on the browser's default timeout (which can be several minutes) severely degrades user experience and ties up resources.
 **Prevention:** Always implement an `AbortController` wrapper for `fetch` calls to enforce a strict timeout (e.g., 10 seconds), ensuring the application can gracefully recover or inform the user of network issues.
+
+## 2026-05-04 - Overly Restrictive CSP via Multiple Meta Tags
+**Vulnerability:** `index.html` contained multiple Content Security Policy (CSP) `<meta>` tags. Browsers enforce the intersection (most restrictive combination) of all provided policies, which inadvertently blocked required `blob:` sources for Web Workers and WASM, breaking core functionality.
+**Learning:** When multiple CSP headers or meta tags are present, the browser enforces *all* of them. A less restrictive policy cannot loosen the restrictions of a stricter policy. This can lead to unexpected breakage, such as `worker-src` or `script-src` failing to load necessary resources if one tag lacks the required permissions (e.g., `blob:`).
+**Prevention:** Ensure that only a single, consolidated, and carefully crafted Content Security Policy is applied to the application to avoid unintended policy intersections.
 ## 2024-05-25 - XSS via Inline Scripts in CSP
 **Vulnerability:** The Content Security Policy (CSP) for `test-chat.html` contained `script-src 'unsafe-inline'`, which effectively neutralized the policy's protection against Cross-Site Scripting (XSS) attacks by allowing arbitrary inline scripts to execute.
 **Learning:** Even in test files or auxiliary pages, using `'unsafe-inline'` in a CSP significantly degrades the application's overall security posture. Inline scripts and inline event handlers (like `onclick`) should be avoided.
