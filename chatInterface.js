@@ -285,6 +285,12 @@ class ChatInterface {
         const text = this.messageInput.value.trim();
         if (!text) return;
 
+        // Security: Limit input length to prevent client-side DoS
+        if (text.length > 500) {
+            alert('输入内容过长，请限制在500个字符以内。');
+            return;
+        }
+
         // 添加用户消息
         this.addMessage('user', text);
         
